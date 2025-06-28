@@ -56,6 +56,27 @@ fun main() {
         .map { it.price }
         .sum()
 
+
+    // จัดกลุ่มสินค้าแต่ละตัวตามช่วงราคา
+    val grouped = products.groupBy { product ->
+        when {
+            product.price <= 1000 -> "กลุ่มของสินค้าที่ราคาไม่เกิน 1,000 บาท"
+            product.price <= 9999.99 -> "กลุ่มของสินค้าที่ราคาอยู่ระหว่าง 1,000 - 9,999 บาท"
+            else -> "กลุ่มของสินค้าราคา 10,000 ขึ้นไป"
+        }
+    }
+
+// แสดงผล
+    for ((groupName, items) in grouped) {
+        println(groupName)
+        for (item in items) {
+            println("${item.name} (${item.price})")
+        }
+        println()
+    }
+
+
+
     println("วิธีที่ 2: ใช้ .asSequence() (ขั้นสูง)")
     println("ผลรวมราคาสินค้า Electronics ที่ราคา > 500 บาท: $totalElecPriceOver500Sequence บาท")
     println("--------------------------------------------------")
@@ -74,4 +95,29 @@ fun main() {
     println("   - เช่น: 'Laptop' จะถูก filter category -> filter price -> map price จากนั้น 'Smartphone' ถึงจะเริ่มทำกระบวนการเดียวกัน")
     println("   - จะไม่มีการสร้าง Collection กลางทาง ทำให้ประหยัดหน่วยความจำและเร็วกว่ามากสำหรับชุดข้อมูลขนาดใหญ่ เพราะทำงานกับข้อมูลทีละชิ้นและทำทุกขั้นตอนให้เสร็จในรอบเดียว")
     println("   - การคำนวณจะเกิดขึ้นเมื่อมี 'Terminal Operation' มาเรียกใช้เท่านั้น (ในที่นี้คือ .sum())")
+
+    /*println("กลุ่มของสินค้าที่ราคาไม่เกิน 1,000 บาท")
+    val nameOfProductsOver1000 = products
+        .filter { it.price < 1000 }
+        .map { it.name }
+        .joinToString ()
+    println(nameOfProductsOver1000)
+    println()
+
+    println("กลุ่มของสินค้าที่ราคาอยู่ระหว่าง 1,000 - 9,999 บาท")
+    val nameOfProductsOver9999 = products
+        .filter { it.price > 1000 }
+        .map { it.name }
+        .joinToString ()
+    println(nameOfProductsOver9999)
+    println()
+
+    println("กลุ่มของสินค้าราคา 10,000 ขึ้นไป")
+    val nameOfProductsOver10000 = products
+        .filter { it.price < 10000 }
+        .map { it.name }
+        .joinToString ()
+    println(nameOfProductsOver10000)
+    println()*/
+
 }
